@@ -1,0 +1,169 @@
+[gd_scene load_steps=20 format=3 uid="uid://x73u5l2y8co4"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_daupe"]
+[ext_resource type="Texture2D" uid="uid://chcporfnrk0xo" path="res://player.png" id="2_s80da"]
+[ext_resource type="Texture2D" uid="uid://jchdpylfgbdx" path="res://player2.png" id="2_wvnmh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_scbrg"]
+atlas = ExtResource("2_wvnmh")
+region = Rect2(24, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m0at5"]
+atlas = ExtResource("2_wvnmh")
+region = Rect2(96, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85vql"]
+atlas = ExtResource("2_s80da")
+region = Rect2(48, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vb7bx"]
+atlas = ExtResource("2_s80da")
+region = Rect2(96, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3hrf"]
+atlas = ExtResource("2_s80da")
+region = Rect2(72, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y747c"]
+atlas = ExtResource("2_s80da")
+region = Rect2(144, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbegj"]
+atlas = ExtResource("2_s80da")
+region = Rect2(0, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7in5"]
+atlas = ExtResource("2_s80da")
+region = Rect2(24, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ek0o"]
+atlas = ExtResource("2_s80da")
+region = Rect2(48, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mhm50"]
+atlas = ExtResource("2_s80da")
+region = Rect2(72, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nnlnv"]
+atlas = ExtResource("2_s80da")
+region = Rect2(96, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7oxi7"]
+atlas = ExtResource("2_s80da")
+region = Rect2(120, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjche"]
+atlas = ExtResource("2_wvnmh")
+region = Rect2(48, 0, 24, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0b04"]
+atlas = ExtResource("2_wvnmh")
+region = Rect2(72, 0, 24, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gffqb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_scbrg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m0at5")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85vql")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vb7bx")
+}],
+"loop": true,
+"name": &"dash",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n3hrf")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y747c")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dbegj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q7in5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ek0o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mhm50")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nnlnv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7oxi7")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qjche")
+}],
+"loop": true,
+"name": &"skill",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l0b04")
+}],
+"loop": true,
+"name": &"ultimate",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h0sv6"]
+size = Vector2(10, 15.5)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_daupe")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -10)
+sprite_frames = SubResource("SpriteFrames_gffqb")
+animation = &"attack"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8.25)
+shape = SubResource("RectangleShape2D_h0sv6")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -30)
+
+[node name="DashTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
