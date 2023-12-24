@@ -1,0 +1,13 @@
+1. make enemy & mechanics
+2. character attack, skill, ultimate
+3. character switch?
+4. background change/level change
+
+For First tutorial stage:
+-change background
+-level change & management
+-player mechanics, attack, skill, ultimate & change ultimate
+-enemies, 2 type zombie -> ruffians
+-buttons changer & teleporter
+-
+var direction : Vector2 = Vector2.ZERO
