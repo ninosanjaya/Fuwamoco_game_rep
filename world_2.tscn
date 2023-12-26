@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://b84ahfh3ot3nn"]
+
+[ext_resource type="PackedScene" uid="uid://x73u5l2y8co4" path="res://Character/player.tscn" id="1_g1s1u"]
+[ext_resource type="PackedScene" uid="uid://dm1qqnn2q8y4f" path="res://tile_map.tscn" id="1_gx4iv"]
+[ext_resource type="Script" path="res://world_2.gd" id="1_ldqlx"]
+[ext_resource type="PackedScene" uid="uid://btf75r4ti78mi" path="res://Character/player2.tscn" id="3_7qiob"]
+[ext_resource type="PackedScene" uid="uid://bcmn84raeexu3" path="res://enemy_walking.tscn" id="5_r0qya"]
+
+[node name="World2" type="Node2D"]
+script = ExtResource("1_ldqlx")
+
+[node name="TileMap" parent="." instance=ExtResource("1_gx4iv")]
+layer_0/tile_data = PackedInt32Array(131071, 131072, 6, 65536, 131072, 6, 65537, 131072, 6, 65538, 131072, 6, 65539, 131072, 6, 65540, 131072, 6, 65541, 131072, 6, 65542, 131072, 6, 65543, 131072, 6, 131070, 131072, 6, -589822, 131072, 6, -589823, 131072, 6, -589824, 131072, 6, -524289, 131072, 6, -458753, 131072, 6, -393217, 131072, 6, -327681, 131072, 6, -393216, 131072, 6, -393215, 131072, 6, -393214, 131072, 6, -327678, 131072, 6, -262142, 131072, 6, -196608, 131072, 6, -131073, 131072, 6, -196607, 131072, 6, -196606, 131072, 6, 131069, 131072, 6, 131068, 131072, 6, 131067, 131072, 6, 131066, 131072, 6, 131065, 131072, 6, 131064, 131072, 6, 131063, 131072, 6, 131062, 131072, 6, 131061, 131072, 6, 131060, 131072, 6, 131059, 131072, 6, 131058, 131072, 6, 65544, 131072, 6, 65545, 131072, 6, 65546, 131072, 6, 65547, 131072, 6, 65548, 131072, 6, 65549, 131072, 6, 65550, 131072, 6, 65551, 131072, 6, 65552, 131072, 6, 65553, 131072, 6, 65554, 131072, 6, 65555, 131072, 6, 65522, 131072, 6, -15, 131072, 6, -65551, 131072, 6, -131087, 131072, 6, -196623, 131072, 6, -262159, 131072, 6, -327695, 131072, 6, -393231, 131072, 6, -458767, 131072, 6, -524303, 131072, 6, 19, 131072, 6, -65517, 131072, 6, -131053, 131072, 6, -196589, 131072, 6, -262125, 131072, 6, -327660, 131072, 6, -393196, 131072, 6, -458732, 131072, 6, -524268, 131072, 6, -589804, 131072, 6, 16, 131072, 6, 15, 131072, 6, 14, 131072, 6, 13, 131072, 6, 12, 131072, 6, 11, 131072, 6)
+
+[node name="Player" parent="." instance=ExtResource("1_g1s1u")]
+
+[node name="Player2" parent="." instance=ExtResource("3_7qiob")]
+position = Vector2(-27, 0)
+
+[node name="SwitchTimer" type="Timer" parent="."]
+
+[node name="Enemy_walking" parent="." instance=ExtResource("5_r0qya")]
+position = Vector2(197, -6)
+
+[node name="Enemy_walking2" parent="." instance=ExtResource("5_r0qya")]
+position = Vector2(15, -53)
+
+[connection signal="timeout" from="SwitchTimer" to="." method="_on_switch_timer_timeout"]
