@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://bl3ni3p0c53md"]
+
+[ext_resource type="Script" path="res://Mana.gd" id="1_kje1o"]
+
+[node name="Mana" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kje1o")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 33.0
+offset_right = 86.0
+offset_bottom = 43.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
