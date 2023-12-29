@@ -3,8 +3,11 @@ extends Node
 var current_scene = null
 
 var health_player_one = 3
+var mana_player_one = 100
 
 var skill_switch_state = 0
+
+
 
 func _ready():
 	var root = get_tree().root

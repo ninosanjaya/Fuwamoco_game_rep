@@ -30,20 +30,20 @@ func _on_animation_tree_2_animation_finished(anim_name):
 	if (anim_name == skill_name):
 		skill_timer.start()
 		ground_state.can_skill = false
-		next_state = return_state
+		next_state = ground_state
 		playback.travel(return_animation_node)
 	elif (anim_name == skill_name2):
 		skill_timer.start()
 		ground_state.can_skill = false
-		next_state = return_state
+		next_state = ground_state
 		playback.travel(return_animation_node)
 	elif (anim_name == skill_name3):
 		skill_timer.start()
 		ground_state.can_skill = false
-		next_state = return_state
+		next_state = ground_state
 		playback.travel(return_animation_node)
 	elif (anim_name == skill_name4):
 		skill_timer.start()
 		ground_state.can_skill = false
-		next_state = return_state
+		next_state = ground_state
 		playback.travel(return_animation_node)

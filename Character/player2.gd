@@ -27,29 +27,41 @@ signal facing_direction_changed(facing_right : bool)
 #@onready var cameraNode2 : Camera2D = get_node("/root/World2/Camera2D2")
 
 @export var normal_speed : bool = true
-@export var right : bool = false
+@export var right : bool = true
 @export var left : bool = false
 
 @onready var player = get_parent().get_node("Player")
 
-@onready var Projectile = preload("res://projectile.tscn")
+@onready var Projectile = preload("res://Projectiles2.tscn")
 var held_item = null
 signal throw_item()
 @onready var held_item_position = $Sprite2D2/HeldItemPosition
 
+
+
+@export var attack_state : State
+@export var attack_animation : String = "attack1"
+@onready var playback:AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
+@onready var attack_timer_ppp = $AttackTimerPPP
+@export var can_attack2 : bool = true
+
 #@onready var player_2 = $"../.."
 #@onready var facing = player_2.right #true is right
 
+@onready var enemy = get_parent().get_node("Enemy_walking")
+@onready var knock_timer = $KnockTimer
+var knockback = Vector2.ZERO
+@export var hit_animation : String = "hit"
+@export var hit_state : State
 
+const whiten_duration = 0.15
+#@export var whiten_material : ShaderMaterial 
+@export var whiten_material : ShaderMaterial
 
 func _ready():
 	animation_tree.active = true
 	#print(player.health_player)
 	#cameraNode.current = true
-
-
-
-
 
 #func _process(delta):
 #	if cameraNode != null:
@@ -82,9 +94,25 @@ func _physics_process(delta):
 	#	next_state = dash_state
 	#	playback.travel(dash_animation)
 
+	elif enemy.knockback == true:
+		
+		whiten_material.set_shader_parameter("whiten", true)
+		#await $Timer.timeout
+		await get_tree().create_timer(0.2).timeout
+		whiten_material.set_shader_parameter("whiten", false)
+		velocity = direction * SPEED + knockback
+		knock_timer.start()
+		knockback = lerp(knockback, Vector2.ZERO, 0.1)
+		state_machine.current_state = hit_state
+		playback.travel(hit_animation)
+		enemy.knockback = false
+		
+		
+
+
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-#	handle_attack()
+	handle_atk()
 	move_and_slide()
 	update_animations(input_axis)
 	update_facing_direction()
@@ -129,18 +157,34 @@ func update_facing_direction():
 #res://Character/player.tscn.
 #get_node("../a_sibling_node")
 func death(): 
-	if Global.health_player_one < 0:
+	if Global.health_player_one == 0:
 		position = Vector2(-100,-100)
 		Global.health_player_one = 3
 
+func handle_atk():
+	if Input.is_action_pressed("attack") && can_attack2 == true :
+		spawn_rock()
+		state_machine.current_state = attack_state
+		playback.travel(attack_animation)
+		can_attack2 = false
+		attack_timer_ppp.start()
 
 
 
+func _on_knock_timer_timeout():
+	enemy.knockback = false
 
-#func _on_ground_2_throw_item():
-	#if held_item == null:
-	#	held_item = Projectile.instantiate()
-	#	held_item_position.add_child(held_item)
-#	held_item.launch(sprite_2d.flip_h)
-		#print(sprite_2d.flip_h)
-#	held_item = null
+func spawn_rock():
+	if held_item == null:
+		held_item = Projectile.instantiate()
+		held_item_position.add_child(held_item)
+		
+
+
+func _on_throw_item():
+	held_item.launch(sprite_2d.flip_h)
+	held_item = null
+
+
+func _on_attack_timer_ppp_timeout():
+	can_attack2 = true

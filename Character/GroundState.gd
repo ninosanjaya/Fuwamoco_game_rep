@@ -49,8 +49,8 @@ func state_input(event : InputEvent):
 	if(event.is_action_pressed("dash") && can_dash == true):
 		dash()
 		
-	if(event.is_action_pressed("attack")):
-		attack()
+	#if(event.is_action_pressed("attack")):
+	#	attack()
 	
 	
 		
@@ -70,16 +70,16 @@ func state_input(event : InputEvent):
 			
 		#print(skillno)
 		
-	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 0):
+	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 0 && Global.mana_player_one > 40):
 		skill()
 		
-	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 1):
+	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 1 && Global.mana_player_one > 40):
 		skill2()
 	
-	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 2):
+	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 2 && Global.mana_player_one > 40):
 		skill3()
 		
-	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 3):
+	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 3 && Global.mana_player_one > 40):
 		skill4()
 		
 	#if(event.is_action_pressed("ultimate")):
@@ -88,7 +88,7 @@ func state_input(event : InputEvent):
 
 
 func dash():
-	direction = Input.get_vector("left", "right", "up", "down")
+	#direction = Input.get_vector("left", "right", "up", "down")
 	if (character.right == true && character.left == false):
 		character.normal_speed = false
 		character.velocity.x =  DASH_VELOCITY
@@ -115,26 +115,46 @@ func attack():
 	next_state = attack_state
 	playback.travel(attack_animation)
 	
+#Baubau
 func skill():
-	damaging.damage = 3
+	Global.mana_player_one -= 40
+	damaging.damage = 4
 	next_state = skill_state
 	playback.travel(skill_animation)
+	#Fuwamoco Baubau combo RAWR AOE meelee rectangle/oval longer
 
+#Shiori
 func skill2():
+	Global.mana_player_one -= 40
 	damaging.damage = 3
 	next_state = skill_state
 	playback.travel(skill_animation2)
+	#Shiori paralysis spell make enemies move slower/corrosion range, shorter range/time than Nerrisa
 	
+#Bijou
 func skill3():
+	Global.mana_player_one -= 40
 	damaging.damage = 3
 	next_state = skill_state
 	playback.travel(skill_animation3)
+	#Bijou scream AOE meellee square/circle bigger
 	
+#Nerisa
 func skill4():
-	damaging.damage = 3
+	Global.mana_player_one -= 40
+	damaging.damage = 2
 	next_state = skill_state
 	playback.travel(skill_animation4)
+	#Nerrisa singing skill range (like mococo sneeze but more powerful)
 	
+#Fuwawa fluff attack, melee small, power= 2
+#Mococo fuzz attack/sneeze, range mid, power = 1
+#Fuwamoco Baubau skill, melee small-mid, power = 4
+#Shiori scissor skill depressing?, melee longest, power = 3
+#Bijou throw rocks skill, melee biggest, power = 3
+#Nerrisa sing skill, range long, power = 2
+#Optional-Korone yubi yubi attack(NOT skill), melee small, power = 4
+
 #func ultimate():
 #	damaging.damage = 3
 #	next_state = ultimate_state

@@ -23,7 +23,8 @@ frame = 11
 shape = SubResource("RectangleShape2D_1fwj5")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.1
+one_shot = true
 
 [node name="Damaging_pro" type="Area2D" parent="."]
 script = ExtResource("3_xmys3")

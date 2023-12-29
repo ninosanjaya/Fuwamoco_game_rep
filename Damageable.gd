@@ -5,7 +5,7 @@ class_name Damageable
 signal on_hit(node : Node, damage_taken : int, knockback_direction : Vector2)
 signal on_hit2(node : Node, damage_taken : int, knockback_direction : Vector2)
 
-@export var health : float = 3
+@export var health : float = 5
 @export var dead1 : bool = false
 
 func hit (damage : int, knockback_direction : Vector2):

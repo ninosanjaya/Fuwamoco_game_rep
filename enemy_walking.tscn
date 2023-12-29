@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bcmn84raeexu3"]
+[gd_scene load_steps=30 format=3 uid="uid://bcmn84raeexu3"]
 
 [ext_resource type="Texture2D" uid="uid://37bk5kh7snw7" path="res://tilemap-characters_packed.png" id="1_1ag3n"]
 [ext_resource type="Script" path="res://enemy_walking.gd" id="1_xcwlg"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://HitState.gd" id="5_suu6c"]
 [ext_resource type="Script" path="res://DeadState.gd" id="6_jg7ty"]
 [ext_resource type="Script" path="res://Wallk2State.gd" id="7_4owdi"]
+[ext_resource type="Script" path="res://EnemyHP.gd" id="9_ndpxw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mignn"]
 atlas = ExtResource("1_1ag3n")
@@ -277,6 +278,9 @@ libraries = {
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_4bv1w")
+}
 tree_root = SubResource("AnimationNodeStateMachine_5l5e4")
 anim_player = NodePath("../AnimationPlayer")
 
@@ -316,6 +320,22 @@ position = Vector2(0, -11.5)
 shape = SubResource("RectangleShape2D_jfsky")
 
 [node name="EnemyTimer" type="Timer" parent="."]
+
+[node name="EnemyHP" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("9_ndpxw")
+
+[node name="ProgressBar" type="ProgressBar" parent="EnemyHP"]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -29.0
+offset_right = 12.0
+offset_bottom = -25.0
+max_value = 5.0
+show_percentage = false
 
 [connection signal="animation_finished" from="AnimationTree" to="CharacterStateMachine/Dead" method="_on_animation_tree_animation_finished"]
 [connection signal="timeout" from="CharacterStateMachine/Hit/Timer" to="CharacterStateMachine/Hit" method="_on_timer_timeout"]

@@ -13,7 +13,7 @@ func _ready():
 	#velocity.x = MOVE_SPEED * DD
 	pass
 	
-func _physic_process(delta):
+func _physic_process(_delta):
 	#position.x += velocity.x * MOVE_SPEED * delta
 	#velocity.y += gravity * delta
 	#velocity.y = 100
@@ -24,7 +24,7 @@ func _physic_process(delta):
 	#velocity.x = Input.get_axis("ui_up", "ui_down") * transform.basis.z * speed
 	move_and_slide()
 	
-func launch(direction):
+func launch(_direction):
 	pass
 #	var temp = global_transform
 #	var scene = get_tree().current_scene

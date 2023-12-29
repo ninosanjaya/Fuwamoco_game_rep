@@ -41,7 +41,7 @@ func _on_dash_timer_timeout():
 		ground_state.can_dash = true
 		character.normal_speed = true
 		next_state = air_state
-		playback.travel(return_animation_node)
+		playback.travel(jump_animation)
 
 
 #func _on_animation_tree_animation_finished(anim_name):

@@ -26,21 +26,32 @@ func on_damageable_hit(_node: Node, _damage_amount: int, knockback_direction : V
 		emit_signal("interrupt_state", self)
 	else:
 		damageable.dead1 = true
-		damageable.health = 3
+		damageable.health = 5
 		#print(character.velocity)
 		emit_signal("interrupt_state", dead_state)
 		playback.travel(dead_animation)
 		
+	if Global.mana_player_one < 100:
+		Global.mana_player_one += 10
+	else:
+		Global.mana_player_one = 100
+		
 func on_damageable_hit2(_node: Node, _damage_amount: int, knockback_direction : Vector2):
+	Global.mana_player_one += 10
 	if(damageable.health > 0):
 		character.velocity = knockback_speed * knockback_direction
 		#print(character.velocity)
 		emit_signal("interrupt_state", self)
 	else:
-		damageable.health = 3
+		damageable.health = 5
 		#print(character.velocity)
 		emit_signal("interrupt_state", dead_state)
 		playback.travel(dead_animation)
+		
+	if Global.mana_player_one < 100:
+		Global.mana_player_one += 10
+	else:
+		Global.mana_player_one = 100
 		
 func on_exit():
 	character.velocity = Vector2.ZERO

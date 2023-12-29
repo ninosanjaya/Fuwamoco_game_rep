@@ -33,7 +33,8 @@ var direction : Vector2 = Vector2.ZERO
 
 @onready var damaging = $"../../Damaging2"
 @export var can_skill : bool = true
-@onready var Projectile = preload("res://Projectiles2.tscn")
+
+#@onready var Projectile = preload("res://Projectiles2.tscn")
 #@onready var Projectile = preload("res://projectile.tscn")
 #@onready var world = get_node("/root/World")
 #@onready var world2 = get_node("/root/World2")
@@ -44,10 +45,10 @@ var direction : Vector2 = Vector2.ZERO
 #@onready var enemy2 = get_node("/root/World/Enemy_walking2")
 #@onready var player = get_parent().get_node("Player")
 
-var held_item = null
+#var held_item = null
 
-signal throw_item()
-@onready var held_item_position = $"../../Sprite2D2/HeldItemPosition"
+#signal throw_item()
+#@onready var held_item_position = $"../../Sprite2D2/HeldItemPosition"
 
 #@onready var player_2 = $"../.."
 #@onready var facing = player_2.right #true is right
@@ -67,8 +68,8 @@ func state_input(event : InputEvent):
 	if(event.is_action_pressed("dash") && can_dash == true):
 		dash()
 		
-	if(event.is_action_pressed("attack")):
-		attack()
+	#if(event.is_action_pressed("attack")):
+	#	attack()
 		
 	if(event.is_action_pressed("switchr") ):
 		if Global.skill_switch_state < 3:
@@ -86,16 +87,16 @@ func state_input(event : InputEvent):
 			
 		#print(skillno)
 		
-	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 0):
+	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 0 && Global.mana_player_one > 40):
 		skill()
 		
-	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 1):
+	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 1 && Global.mana_player_one > 40):
 		skill2()
 	
-	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 2):
+	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 2 && Global.mana_player_one > 40):
 		skill3()
 		
-	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 3):
+	if(event.is_action_pressed("skill") && can_skill == true && Global.skill_switch_state == 3 && Global.mana_player_one > 40):
 		skill4()
 	#if(event.is_action_pressed("ultimate")):
 	#	ultimate()
@@ -135,27 +136,31 @@ func attack():
 #		var direction = (enemy.position - character.position).normalized()
 #		projectile.launch(direction)
 	#velocity = Vector2.ZERO
-	spawn_rock()
+	#spawn_rock()
 	next_state = attack_state
 	playback.travel(attack_animation)
 	
 func skill():
-	damaging.damage = 3
+	Global.mana_player_one -= 40
+	damaging.damage = 4
 	next_state = skill_state
 	playback.travel(skill_animation)
 
 func skill2():
+	Global.mana_player_one -= 40
 	damaging.damage = 3
 	next_state = skill_state
 	playback.travel(skill_animation2)
 	
 func skill3():
+	Global.mana_player_one -= 40
 	damaging.damage = 3
 	next_state = skill_state
 	playback.travel(skill_animation3)
 	
 func skill4():
-	damaging.damage = 3
+	Global.mana_player_one -= 40
+	damaging.damage = 2
 	next_state = skill_state
 	playback.travel(skill_animation4)
 	
@@ -164,18 +169,18 @@ func skill4():
 #	next_state = ultimate_state
 #	playback.travel(ultimate_animation)
 
-func spawn_rock():
-	if held_item == null:
-		held_item = Projectile.instantiate()
-		held_item_position.add_child(held_item)
-		
-func _on_throw_item():
+#func spawn_rock():
 #	if held_item == null:
 #		held_item = Projectile.instantiate()
 #		held_item_position.add_child(held_item)
-	held_item.launch(sprite_2d.flip_h)
+		
+#func _on_throw_item():
+#	if held_item == null:
+#		held_item = Projectile.instantiate()
+#		held_item_position.add_child(held_item)
+#	held_item.launch(sprite_2d.flip_h)
 		#print(sprite_2d.flip_h)
-	held_item = null
+#	held_item = null
 
 
 

@@ -76,11 +76,11 @@ func _on_switch_timer_timeout():
 	switch_time = true
 	
 	
-func save():
+func save(_file):
 	var file = FileAccess.open(save_path, FileAccess.WRITE)
 	#file.store_var(variable1)
 	
-func load_data():
+func load_data(_file):
 	if FileAccess.file_exists(save_path):
 		var file = FileAccess.open(save_path, FileAccess.READ)
 		#variable1 = file.get_var(variable1)

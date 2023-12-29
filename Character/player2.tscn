@@ -1,7 +1,8 @@
-[gd_scene load_steps=77 format=3 uid="uid://btf75r4ti78mi"]
+[gd_scene load_steps=80 format=3 uid="uid://btf75r4ti78mi"]
 
 [ext_resource type="Script" path="res://Character/player2.gd" id="1_b3bld"]
 [ext_resource type="Texture2D" uid="uid://37bk5kh7snw7" path="res://tilemap-characters_packed.png" id="2_e25xu"]
+[ext_resource type="Material" uid="uid://dpuhlrxcqb8yv" path="res://whiten_material.tres" id="3_7uxmv"]
 [ext_resource type="Script" path="res://Character/CharacterStateMachine.gd" id="3_51ms6"]
 [ext_resource type="Texture2D" uid="uid://jchdpylfgbdx" path="res://player2.png" id="3_vk3xy"]
 [ext_resource type="Script" path="res://Character/GroundState2.gd" id="4_srvgm"]
@@ -11,6 +12,8 @@
 [ext_resource type="Script" path="res://Character/SkillState2.gd" id="8_307q5"]
 [ext_resource type="Script" path="res://Character/Damaging2.gd" id="9_4672t"]
 [ext_resource type="Script" path="res://Character/CollisionShape2D2.gd" id="10_6ujwr"]
+[ext_resource type="Script" path="res://Character/HitState2.gd" id="10_no1om"]
+[ext_resource type="Script" path="res://Character/Statedebug2.gd" id="11_uvyjp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_70hdg"]
 size = Vector2(20, 21)
@@ -120,7 +123,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../CharacterStateMachine2/Ground2")
+tracks/4/path = NodePath("..")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -222,6 +225,55 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_ugs8y"]
+resource_name = "dead"
+
+[sub_resource type="Animation" id="Animation_ng8xf"]
+resource_name = "dogidle"
+
+[sub_resource type="Animation" id="Animation_hswxt"]
+resource_name = "dogwalk"
+
+[sub_resource type="Animation" id="Animation_1vskc"]
+resource_name = "hit"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_e25xu")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
 }
 
 [sub_resource type="Animation" id="Animation_7xji4"]
@@ -653,18 +705,6 @@ tracks/3/keys = {
 "values": [false, true, false]
 }
 
-[sub_resource type="Animation" id="Animation_1vskc"]
-resource_name = "hit"
-
-[sub_resource type="Animation" id="Animation_ugs8y"]
-resource_name = "dead"
-
-[sub_resource type="Animation" id="Animation_ng8xf"]
-resource_name = "dogidle"
-
-[sub_resource type="Animation" id="Animation_hswxt"]
-resource_name = "dogwalk"
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tkj32"]
 _data = {
 "RESET": SubResource("Animation_2a64v"),
@@ -809,6 +849,8 @@ advance_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_amxrk"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wny22"]
+switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_4mqlp"]
 states/End/position = Vector2(935, 125)
@@ -843,10 +885,22 @@ transitions = ["Start", "move", SubResource("AnimationNodeStateMachineTransition
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rlgfr"]
 size = Vector2(16, 23)
 
-[node name="Player2" type="CharacterBody2D"]
+[node name="Player2" type="CharacterBody2D" node_paths=PackedStringArray("attack_state", "hit_state")]
 script = ExtResource("1_b3bld")
+attack_state = NodePath("CharacterStateMachine2/Attack2")
+hit_state = NodePath("CharacterStateMachine2/Hit2")
+whiten_material = ExtResource("3_7uxmv")
+
+[node name="AttackTimerPPP" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="KnockTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -41)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 position = Vector2(0, -11.5)
@@ -860,6 +914,7 @@ hframes = 7
 frame = 2
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
+material = ExtResource("3_7uxmv")
 position = Vector2(0, -12)
 texture = ExtResource("2_e25xu")
 hframes = 9
@@ -867,7 +922,7 @@ vframes = 3
 
 [node name="HeldItemPosition" type="Marker2D" parent="Sprite2D2"]
 show_behind_parent = true
-position = Vector2(13, -16)
+position = Vector2(0, -16)
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite2D2")
@@ -876,9 +931,12 @@ libraries = {
 }
 
 [node name="AnimationTree2" type="AnimationTree" parent="."]
+root_node = NodePath("../Sprite2D2")
+libraries = {
+"": SubResource("AnimationLibrary_tkj32")
+}
 tree_root = SubResource("AnimationNodeStateMachine_4mqlp")
 anim_player = NodePath("../AnimationPlayer2")
-active = true
 parameters/dog/blend_position = 0
 parameters/move/blend_position = 0.00277007
 
@@ -909,9 +967,11 @@ ground_state = NodePath("../Ground2")
 wait_time = 0.2
 one_shot = true
 
-[node name="Attack2" type="Node" parent="CharacterStateMachine2" node_paths=PackedStringArray("return_state")]
+[node name="Attack2" type="Node" parent="CharacterStateMachine2" node_paths=PackedStringArray("return_state", "ground_state", "air_state")]
 script = ExtResource("7_1l6hn")
 return_state = NodePath("../Ground2")
+ground_state = NodePath("../Ground2")
+air_state = NodePath("../Air2")
 
 [node name="AtkTimer2" type="Timer" parent="CharacterStateMachine2/Attack2"]
 wait_time = 0.3
@@ -925,6 +985,20 @@ ground_state = NodePath("../Ground2")
 [node name="SkillTimer2" type="Timer" parent="CharacterStateMachine2/Skill2"]
 wait_time = 5.0
 one_shot = true
+
+[node name="Hit2" type="Node" parent="CharacterStateMachine2" node_paths=PackedStringArray("ground_state", "air_state")]
+script = ExtResource("10_no1om")
+ground_state = NodePath("../Ground2")
+air_state = NodePath("../Air2")
+
+[node name="Statedebug2" type="Label" parent="."]
+visible = false
+offset_left = -30.0
+offset_top = -44.0
+offset_right = 52.0
+offset_bottom = -21.0
+text = "State: "
+script = ExtResource("11_uvyjp")
 
 [node name="Damaging2" type="Area2D" parent="." node_paths=PackedStringArray("player", "facing_shape")]
 position = Vector2(0, -4)
@@ -940,9 +1014,12 @@ script = ExtResource("10_6ujwr")
 facing_left_position = Vector2(7, -9)
 facing_right_position = Vector2(-7, -9)
 
+[connection signal="throw_item" from="." to="." method="_on_throw_item"]
+[connection signal="timeout" from="AttackTimerPPP" to="." method="_on_attack_timer_ppp_timeout"]
+[connection signal="timeout" from="KnockTimer" to="." method="_on_knock_timer_timeout"]
+[connection signal="timeout" from="KnockTimer" to="CharacterStateMachine2/Hit2" method="_on_knock_timer_timeout"]
 [connection signal="animation_finished" from="AnimationTree2" to="CharacterStateMachine2/Attack2" method="_on_animation_tree_2_animation_finished"]
 [connection signal="animation_finished" from="AnimationTree2" to="CharacterStateMachine2/Skill2" method="_on_animation_tree_2_animation_finished"]
-[connection signal="throw_item" from="CharacterStateMachine2/Ground2" to="CharacterStateMachine2/Ground2" method="_on_throw_item"]
 [connection signal="timeout" from="CharacterStateMachine2/Dash2/DashTimer2" to="CharacterStateMachine2/Dash2" method="_on_dash_timer_2_timeout"]
 [connection signal="timeout" from="CharacterStateMachine2/Skill2/SkillTimer2" to="CharacterStateMachine2/Skill2" method="_on_skill_timer_2_timeout"]
 [connection signal="body_entered" from="Damaging2" to="Damaging2" method="_on_body_entered"]

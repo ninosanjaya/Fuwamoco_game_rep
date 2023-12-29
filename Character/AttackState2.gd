@@ -9,7 +9,9 @@ class_name Attack2
 @export var attack2_name : String = "attack2"
 @export var attack2_node : String = "attack2"
 
-
+@export var ground_state : State
+@export var air_state : State
+@export var jump_animation : String = "jump"
 @onready var atk_timer = $AtkTimer2
 
 
@@ -32,8 +34,13 @@ func _on_animation_tree_2_animation_finished(anim_name):
 	if (anim_name == attack1_name):
 		if(atk_timer.is_stopped()):
 			#print("timer stop after 1 atk")
-			next_state = return_state
-			playback.travel(return_animation_node2)
+			if (character.is_on_floor()):
+				next_state = ground_state
+				playback.travel(return_animation_node2)
+			elif (!character.is_on_floor()):
+				next_state = air_state
+				playback.travel(jump_animation)
+			
 		else:
 			#print("timer still after 1 atk")
 			playback.travel(attack2_node)

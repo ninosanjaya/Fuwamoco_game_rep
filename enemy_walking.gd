@@ -77,9 +77,16 @@ func _on_enemy_attack_body_entered(body):
 		enemy_timer.start()
 		get_hit = true
 		
+		
 		if (body.get_name() == "Player"):
+			var directionK = global_position.direction_to(body.global_position)
+			var explosion_force = directionK * 10.0
+			body.knockback = explosion_force
 			knockback = true
 		if (body.get_name() == "Player2"):
+			var directionK2 = global_position.direction_to(body.global_position)
+			var explosion_force = directionK2 * 10.0
+			body.knockback = explosion_force
 			knockback = true
 			#print(player.sprite_2d.flip_h)
 		#print("get hit")

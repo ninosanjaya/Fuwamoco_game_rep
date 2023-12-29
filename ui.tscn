@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://bacxdcn0mi8gr"]
+
+[ext_resource type="Script" path="res://Life.gd" id="1_5l8b5"]
+[ext_resource type="Texture2D" uid="uid://bfrgxgky1d2qm" path="res://2_heart.png" id="1_hfgle"]
+[ext_resource type="PackedScene" uid="uid://bl3ni3p0c53md" path="res://mana.tscn" id="1_i60et"]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="Mana" parent="." instance=ExtResource("1_i60et")]
+offset_left = 2.0
+offset_top = 1.0
+offset_right = 2.0
+offset_bottom = 1.0
+
+[node name="Life" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_5l8b5")
+
+[node name="Heart" type="TextureRect" parent="Life"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 9.0
+offset_right = 107.0
+offset_bottom = 109.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_hfgle")
+expand_mode = 1
+stretch_mode = 1

@@ -12,6 +12,9 @@ class_name AirState
 
 var has_double_jumped = false
 
+@export var attack_state : State
+@export var attack_animation : String = "attack1"
+
 func state_process(_delta):
 	if(character.is_on_floor()):
 		next_state = ground_state
@@ -22,6 +25,9 @@ func state_input(event : InputEvent):
 		
 	if(event.is_action_pressed("dash") && ground_state.can_dash == true):
 		dash()
+		
+	if(event.is_action_pressed("attack")):
+		attack()
 		
 
 func on_exit():
@@ -46,5 +52,10 @@ func dash():
 	dash_timer.start()
 	next_state = dash_state
 	playback.travel(dash_animation)
+	
+func attack():
+	next_state = attack_state
+	playback.travel(attack_animation)
+	
 	
 
